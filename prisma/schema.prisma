@@ -1,0 +1,215 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin", "windows"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         Int         @id @default(autoincrement())
+  name       String      @unique @default("ADMIN")
+  email      String?     @unique
+  password   String?
+  image      String?
+  profile    Profile?
+  accounting Accounting?
+  employee   Employee?
+  roles      UserRoles[]
+
+  @@unique([name, email])
+}
+
+model Profile {
+  id         Int           @id @default(autoincrement())
+  age        Int           @default(0)
+  photo      String?
+  email      String?
+  phone      String?
+  name       String?
+  patronymic String?
+  surname    String?
+  userId     Int           @unique
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  links      LickProfile[]
+}
+
+model LickProfile {
+  id        Int     @id @default(autoincrement())
+  url       String
+  name      String
+  profileId Int
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model HireDate {
+  id         Int       @id @default(autoincrement())
+  hired      DateTime  @default(now())
+  fired      DateTime?
+  commit     String?
+  employeeId Int
+  employee   Employee  @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Bank {
+  id         Int      @id @default(autoincrement())
+  bankname   String?
+  iban       String?
+  linkpay    String?
+  card       String?
+  employeeId Int
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Roles {
+  id    Int         @id @default(autoincrement())
+  role  String      @unique
+  users UserRoles[]
+}
+
+model UserRoles {
+  user   User  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  userId Int
+  role   Roles @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  roleId Int
+
+  @@id([roleId, userId])
+}
+
+model Employee {
+  id            Int              @id @default(autoincrement())
+  isHired       Boolean          @default(false)
+  positionName  String           @default("")
+  userId        Int              @unique
+  user          User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  payment       PaymentEmployee?
+  position      String
+  positionModel Positions        @relation(fields: [position], references: [name])
+  mainArea      String
+  mainAreaModel MainArea         @relation(fields: [mainArea], references: [name])
+  banks         Bank[]
+  hireDates     HireDate[]
+  works         Work[]
+  income        Income[]
+  expenditure   Expenditure[]
+}
+
+model PaymentEmployee {
+  id         Int      @id @default(autoincrement())
+  salary     Float?
+  bonus      Float?
+  paidLeave  Float?
+  toPayoff   Float?
+  paid       Float?
+  duty       Float?
+  employeeId Int      @unique
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Positions {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  employees Employee[]
+  workers   Work[]
+}
+
+model MainArea {
+  id        Int        @id @default(autoincrement())
+  name      String     @unique
+  employees Employee[]
+}
+
+model Project {
+  id            Int           @id @default(autoincrement())
+  price         Float         @default(0)
+  hours         Float         @default(0)
+  name          String        @unique
+  customer      String
+  link          String?
+  repositoryUrl String?
+  isEnd         Boolean       @default(false)
+  isStart       Boolean       @default(false)
+  createAt      DateTime      @default(now())
+  start         DateTime?
+  end           DateTime?
+  workers       Work[]
+  currencies    Currency[]
+  accounting    Accounting[]
+  expenditure   Expenditure[]
+  income        Income[]
+}
+
+model Work {
+  id            Int       @id @default(autoincrement())
+  project       Project   @relation(fields: [projectId], references: [id], onUpdate: NoAction)
+  employee      Employee  @relation(fields: [employeeId], references: [id], onUpdate: NoAction)
+  positionModel Positions @relation(fields: [position], references: [name])
+  employeeId    Int
+  projectId     Int
+  position      String
+  hours         Int       @default(0)
+  rate          Float     @default(0)
+  positionName  String    @default("")
+  isWork        Boolean   @default(true)
+  start         DateTime  @default(now())
+  end           DateTime?
+}
+
+model Accounting {
+  id          Int           @id @default(autoincrement())
+  createdAt   DateTime      @default(now())
+  userId      Int           @unique
+  user        User          @relation(fields: [userId], references: [id], onUpdate: NoAction)
+  projects    Project[]
+  currencies  Currency[]
+  expenditure Expenditure[]
+  income      Income[]
+}
+
+model Currency {
+  id           Int           @id @default(autoincrement())
+  name         String        @unique
+  shortName    String        @unique
+  balance      Float         @default(0)
+  accountingId Int
+  accounting   Accounting    @relation(fields: [accountingId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  expenditure  Expenditure[]
+  projects     Project[]
+  income       Income[]
+}
+
+model Expenditure {
+  id           Int        @id @default(autoincrement())
+  description  String?
+  value        Float      @default(0)
+  isRefund     Boolean    @default(false)
+  createAt     DateTime   @default(now())
+  refundAt     DateTime?
+  accountingId Int
+  employeeId   Int?
+  projectId    Int?
+  currencyName String
+  accounting   Accounting @relation(fields: [accountingId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  currency     Currency   @relation(fields: [currencyName], references: [shortName])
+  project      Project?   @relation(fields: [projectId], references: [id], onUpdate: NoAction)
+  employee     Employee?  @relation(fields: [employeeId], references: [id])
+}
+
+model Income {
+  id           Int        @id @default(autoincrement())
+  description  String?
+  value        Float      @default(0)
+  isRefund     Boolean    @default(false)
+  createAt     DateTime   @default(now())
+  refundAt     DateTime?
+  accountingId Int
+  employeeId   Int?
+  projectId    Int?
+  currencyName String
+  accounting   Accounting @relation(fields: [accountingId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  currency     Currency   @relation(fields: [currencyName], references: [shortName])
+  project      Project?   @relation(fields: [projectId], references: [id], onUpdate: NoAction)
+  employee     Employee?  @relation(fields: [employeeId], references: [id])
+}

@@ -1,0 +1,111 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:import/errors"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "@typescript-eslint/eslint-plugin"
+  ],
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "es6": true
+  },
+  "rules": {
+    //base eslint
+    "semi": "off",
+    "no-useless-escape": "off",
+    "import/named": 1,
+    "import/no-anonymous-default-export": "off",
+    "import/prefer-default-export": "off",
+    "no-shadow": "off",
+    "no-useless-catch": "off",
+    "no-unused-vars": "off",
+    "no-console": [
+      1,
+      {
+        "allow": [
+          "error"
+        ]
+      }
+    ],
+    "prefer-const": [
+      1,
+      {
+        "destructuring": "any",
+        "ignoreReadBeforeAssign": true
+      }
+    ],
+    //ts ignore
+    "@typescript-eslint/unbound-method": 0,
+    "@typescript-eslint/no-inferrable-types": 0,
+    "typescript-eslint/no-floating-promises": 0,
+    "@typescript-eslint/no-unsafe-assignment": 0,
+    "@typescript-eslint/interface-name-prefix": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    //ts warn
+    "@typescript-eslint/semi": 1,
+    "@typescript-eslint/no-var-requires": 1,
+    "@typescript-eslint/no-explicit-any": 1,
+    "@typescript-eslint/no-unsafe-return": 1,
+    "@typescript-eslint/no-unsafe-argument": 1,
+    "@typescript-eslint/no-non-null-assertion": 1,
+    "@typescript-eslint/prefer-optional-chain": 1,
+    "@typescript-eslint/no-unsafe-member-access": 1,
+    "@typescript-eslint/explicit-module-boundary-types": 1,
+    "@typescript-eslint/no-empty-interface": [
+      1,
+      {
+        "allowSingleExtends": true
+      }
+    ],
+    "@typescript-eslint/no-floating-promises": [
+      1,
+      {
+        "ignoreVoid": true,
+        "ignoreIIFE": false
+      }
+    ],
+    "@typescript-eslint/restrict-template-expressions": [
+      1,
+      {
+        "allowNumber": true,
+        "allowAny": true,
+        "allowRegExp": true,
+        "allowNullish": true,
+        "allowBoolean": false
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      1,
+      {
+        "varsIgnorePattern": "^_",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    //ts error
+    "@typescript-eslint/prefer-for-of": 2,
+    "@typescript-eslint/prefer-as-const": 2,
+    "@typescript-eslint/no-misused-promises": [
+      2,
+      {
+        "checksVoidReturn": false,
+        "checksConditionals": false
+      }
+    ],
+    "@typescript-eslint/no-empty-function": [
+      2,
+      {
+        "allow": [
+          "arrowFunctions"
+        ]
+      }
+    ]
+  }
+}

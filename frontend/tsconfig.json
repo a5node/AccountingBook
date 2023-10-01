@@ -1,0 +1,45 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "noImplicitAny": false,
+    "noUnusedParameters": true,
+    "noImplicitReturns": false,
+    "strictNullChecks": true,
+    "outDir": "../apps",
+    "paths": {
+      "@app/*": [
+        "./app/*"
+      ],
+      "@lib/*": [
+        "./libs/*"
+      ],
+      "@interface/*": [
+        "./interface/*"
+      ],
+      "@store/*": [
+        "./store/*"
+      ],
+      "@hooks/*": [
+        "./hooks/*"
+      ]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "../glob.d.ts",
+    "../contracts/**/*.ts",
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "../apps/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.(test|spec).(ts|tsx)"
+  ]
+}

@@ -1,0 +1,60 @@
+.loader {
+  position: relative;
+  width: 40px;
+  height: 10px;
+}
+.loader::before,
+.loader::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 15px 0 #fff;
+  left: 0;
+  top: 0;
+  animation: ballMoveX 2s linear infinite;
+}
+.loader::after {
+  box-shadow: none;
+  transform: translateX(35px) scale(1);
+  animation: none;
+  animation: trfLoader 2s linear infinite;
+}
+
+@keyframes trfLoader {
+  0%,
+  5% {
+    transform: translateX(35px) scale(1);
+    background: rgb(255, 255, 255);
+  }
+  10% {
+    transform: translateX(35px) scale(1);
+    background: rgba(255, 60, 0, 0.801);
+  }
+  40% {
+    transform: translateX(18px) scale(1.5);
+    background: rgb(255, 61, 0);
+  }
+  90%,
+  95% {
+    transform: translateX(0px) scale(1);
+    background: rgba(255, 60, 0, 0.801);
+  }
+  100% {
+    transform: translateX(0px) scale(1);
+    background: rgb(255, 255, 255);
+  }
+}
+
+@keyframes ballMoveX {
+  0%,
+  10% {
+    transform: translateX(0);
+  }
+  90%,
+  100% {
+    transform: translateX(17px);
+  }
+}

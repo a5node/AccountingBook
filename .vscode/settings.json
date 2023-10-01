@@ -1,0 +1,30 @@
+{
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "cSpell.enableFiletypes": [
+    "!c",
+    "!jade",
+    "!java",
+    "!jupyter",
+    "!php",
+    "!plaintext",
+    "!pug",
+    "!python",
+    "!restructuredtext",
+    "!rust",
+    "!scala",
+    "!scminput",
+    "!swift",
+    "!vue",
+    "ansible",
+    "dockercompose",
+    "dockerfile",
+    "dotenv",
+    "ini",
+    "json5",
+    "jsx",
+    "sass.hover",
+    "sql",
+    "type",
+    "typescriptreact"
+  ]
+}
